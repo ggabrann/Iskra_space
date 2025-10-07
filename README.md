@@ -31,3 +31,14 @@ flutter test --coverage
 ## Полезные ссылки
 - [Документация Flutter](https://docs.flutter.dev/)
 - [Very Good Core](https://github.com/VGVentures/very_good_cli/tree/main/packages/very_good_core)
+
+## Workspace (Melos)
+В репозитории используется mono-workspace для пакетов в `packages/*`.
+
+Быстрый старт:
+```bash
+dart pub global activate melos
+melos bootstrap
+melos run analyze
+melos run test
+```

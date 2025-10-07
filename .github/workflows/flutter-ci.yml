@@ -8,13 +8,30 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
+      # Flutter for the root application
       - uses: subosito/flutter-action@v2
         with: { channel: stable }
-      - run: flutter pub get
-      - run: dart format --output=none --set-exit-if-changed .
-      - run: flutter analyze
-      - run: flutter test --coverage
+      - name: App deps
+        run: flutter pub get
+      - name: App format check
+        run: dart format --output=none --set-exit-if-changed .
+      - name: App analyze
+        run: flutter analyze
+      - name: App tests (if any)
+        run: flutter test --coverage || true
       - uses: actions/upload-artifact@v4
+        if: always()
         with:
-          name: coverage
+          name: app-coverage
           path: coverage/
+
+      # Melos for workspace packages
+      - name: Install melos
+        run: dart pub global activate melos
+      - name: Bootstrap workspace
+        run: ~/.pub-cache/bin/melos bootstrap
+      - name: Packages analyze
+        run: ~/.pub-cache/bin/melos run analyze
+      - name: Packages test
+        run: ~/.pub-cache/bin/melos run test

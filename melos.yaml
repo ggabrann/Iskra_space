@@ -1,0 +1,7 @@
+name: iskra_workspace
+packages:
+  - packages/**
+scripts:
+  analyze: melos exec -c 1 -- dart analyze .
+  test: melos exec -c 1 -- dart test -r expanded
+  format: melos exec -- dart format .

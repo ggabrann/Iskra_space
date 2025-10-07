@@ -1,0 +1,9 @@
+name: iskra_llm
+description: iskra_llm package for Iskra_space workspace
+version: 0.0.1
+environment:
+  sdk: ">=3.4.0 <4.0.0"
+
+dev_dependencies:
+  test: ^1.25.0
+  very_good_analysis: ^6.0.0
