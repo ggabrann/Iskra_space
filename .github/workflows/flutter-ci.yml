@@ -1,11 +1,7 @@
 name: flutter-ci
-
 on:
-  push:
-    branches: [ "**" ]
-  pull_request:
-    branches: [ "**" ]
-
+  push: { branches: [main] }
+  pull_request: { branches: [main] }
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -14,16 +10,14 @@ jobs:
       - uses: subosito/flutter-action@v2
         with:
           channel: stable
-      - name: Flutter pub get
-        run: flutter pub get
-      - name: Format check
-        run: dart format --output=none --set-exit-if-changed .
-      - name: Analyze
-        run: flutter analyze
-      - name: Test with coverage
-        run: flutter test --coverage
-      - name: Upload coverage artifact
-        uses: actions/upload-artifact@v4
+      - run: flutter --version
+      - run: flutter pub get
+      - run: dart format --output=none --set-exit-if-changed .
+      - run: flutter analyze
+      # Тесты без жёсткого порога покрытия, чтобы не падать на старте
+      - run: flutter test --coverage
+      # Кэш артефактов покрытия (на будущее, без fail the build)
+      - uses: actions/upload-artifact@v4
         with:
           name: coverage
-          path: coverage/
+          path: coverage/lcov.info
